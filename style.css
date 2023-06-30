@@ -1,9 +1,10 @@
 body {
 	display: flex;
 	flex-direction: column;
-	background-color: pink;
+	background-color: black;
 	justify-items: center;
 	align-items: center;
+	margin: 0;
 }
 
 .game {
@@ -12,13 +13,54 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	padding: 5%;
+	background-color: seagreen;
 	width: 60vw;
+	
 }
 
 .output {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: space-around;
+	align-content: center;
+	align-items: center;
 	width: 600px;
 	height: 400px;
-	background-color: red;
+	border: 5px solid black;
+	border-radius: 20px;
+	background-color: skyblue;
+}
+
+.players {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+}
+
+/* Players */
+.player1, .player2 {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	width: 100%;
+}
+
+.name {
+	font-size: 20px;
+}
+
+/* Scoreboards */
+.score1, .score2 {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	text-align: center;
+	font-size: 80px;
+	height: 100%;
+
 }
 
 .user-input {
@@ -31,9 +73,19 @@ body {
 button {
 	width: 200px;
 	height: 75px;
-	background-color: teal;
+	border: 3px dotted black;
+	border-radius: 100px;
+	background-color: purple;
 }
 
-.user-input {
-	display: flex;
+.rock {
+	background-color: grey;
+}
+
+.paper {
+	background-color: antiquewhite;
+}
+
+.scissors {
+	background-color: crimson;
 }

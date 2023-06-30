@@ -32,14 +32,14 @@ function getPlayerChoice() {
 }
 
 function getComputerChoice() {
-	const rng = Math.floor(Math.random() * 3);
+	let rng = Math.floor(Math.random() * 3);
 	if (rng === 1) return rock;
 	if (rng === 2) return paper;
 	else return scissors;
 }
 
 
-function playRound(p1, p1_score, p2, p2_score) {
+function playRound(p1, p2) {
 	// console.log(`${player1} plays... ${p1.toUpperCase()}`);
 	// console.log(`${player2} plays... ${p2.toUpperCase()}`);
 	function checkLogic(p1, p2) {
@@ -55,22 +55,25 @@ function playRound(p1, p1_score, p2, p2_score) {
 		}
 	}
 
+	function updateScreen(p, pScore, sboard) {
+		if (pScore === 5) {
+			players.remove();
+			winScreen.textContent = `${p} Wins!`;
+			output.appendChild(winScreen);
+			output.appendChild(btnPlayAgain);
+		} else {
+			sboard.textContent = `${pScore}`;
+		}
+	}
+
 	let winner = checkLogic(p1, p2);
 	
 	if (winner === player1) {
 		p1_Score += 1;
-		if (p1_Score === 5) {
-			winScreen.textContent = 'P1 Wins!';
-			output.appendChild(winScreen);
-			output.appendChild(btnPlayAgain);
-		}
-	} else {	
+		updateScreen(winner, p1_Score, scoreBoard1);
+	} else if (winner === player2) {	
 		p2_Score += 1;
-		if (p2_Score === 5) {
-			winScreen.textContent = 'P2 Wins!';
-			output.appendChild(winScreen);
-			output.appendChild(btnPlayAgain);
-		}
+		updateScreen(winner, p2_Score, scoreBoard2);
 	}
 	
 }
@@ -81,6 +84,9 @@ function resetGame() {
 	while (output.firstChild) {
 		output.firstChild.remove();
 	}
+	scoreBoard1.textContent = p1_Score;
+	scoreBoard2.textContent = p2_Score;
+	output.appendChild(players);
 }
 
 
@@ -92,34 +98,50 @@ const player1 = "The Human";
 const player2 = "The Computer";
 const tieBreaker = "TIE!!!";
 
-// Buttons + Screen
-const btnRock = document.querySelector(".rock");
-const btnPaper = document.querySelector(".paper");
-const btnScissors = document.querySelector(".scissors");
-
-const output = document.querySelector(".output");
-
-const btnPlayAgain = document.createElement('button');
-btnPlayAgain.textContent = 'Play Again?'
-
-// Win "Screens"
-let winScreen = document.createElement('div');
-
 // Score Counters
 let p1_Score = 0;
 let p2_Score = 0;
 
+/* ------------ Buttons + Screen ------------ */
+const btnRock = document.querySelector(".rock");
+const btnPaper = document.querySelector(".paper");
+const btnScissors = document.querySelector(".scissors");
+
+// "Play again" Button
+const btnPlayAgain = document.createElement('button');
+btnPlayAgain.textContent = 'Play Again?';
+
+// The "Screen"
+const output = document.querySelector(".output");
+
+// Player Containers
+const players = document.querySelector(".players");
+
+// Score Containers
+const scoreBoard1 = document.querySelector(".score1");
+const scoreBoard2 = document.querySelector(".score2");
+
+// Win 
+let winScreen = document.createElement('div');
+/* winScreen.style.flex */
+
+// Set names on screen = to names of players
+document.querySelector('.player1').firstElementChild.textContent = player1;
+document.querySelector('.player2').firstElementChild.textContent = player2;
+/* ------------------------------------------ */
+
+
 // Button Event Listeners
 btnRock.addEventListener("click", () => {
-	playRound(rock, p1_Score, getComputerChoice(), p2_Score)
+	playRound(rock, getComputerChoice());
 });
 
 btnPaper.addEventListener("click", () => {
-	playRound(paper, p1_Score, getComputerChoice(), p2_Score)
+	playRound(paper, getComputerChoice());
 });
 
 btnScissors.addEventListener("click", () => {
-	playRound(scissors, p1_Score, getComputerChoice(), p2_Score)
+	playRound(scissors, getComputerChoice());
 });
 
 btnPlayAgain.addEventListener("click", () => {
