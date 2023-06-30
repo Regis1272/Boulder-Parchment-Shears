@@ -25,13 +25,7 @@
  *
  ****/
 
-const rock = "boulder";
-const paper = "parchment";
-const scissors = "shears";
 
-const player1 = "The Human";
-const player2 = "The Computer";
-const tieBreaker = "TIE!!!";
 
 function getPlayerChoice() {
 	return prompt("Boulder... Parchment... or Shears???...").toLowerCase();
@@ -44,57 +38,91 @@ function getComputerChoice() {
 	else return scissors;
 }
 
-function playRound(p1, p2) {
-	console.log(`${player1} plays... ${p1.toUpperCase()}`);
-	console.log(`${player2} plays... ${p2.toUpperCase()}`);
 
-	if (
-	(p1 === rock && p2 === scissors) ||
-	(p1 === paper && p2 === rock) ||
-	(p1 === scissors && p2 === paper)) {
-		console.log(`${player1} wins this round! ${p1} beats ${p2}!`);
-		return player1;
-	} else if (p1 === p2) {
-		return tieBreaker;
-	} else {
-		console.log(`${player2} wins this round! ${p2} beats ${p1}!`);
-		return player2;
-	}
-}
-
-function game() {
-	let p1_Score = 0;
-	let p2_Score = 0;
-	let winner = '';
-
-	while (p1_Score !== 5 && p2_Score !== 5) {
-		let p1 = getPlayerChoice();
-		let p2 = getComputerChoice();
-
-		let winner = playRound(p1, p2);
-
-		if (winner === player1) {
-			p1_Score += 1;
-		} else if (winner === tieBreaker) {
-			console.log(tieBreaker);
+function playRound(p1, p1_score, p2, p2_score) {
+	// console.log(`${player1} plays... ${p1.toUpperCase()}`);
+	// console.log(`${player2} plays... ${p2.toUpperCase()}`);
+	function checkLogic(p1, p2) {
+		if (
+		(p1 === rock && p2 === scissors) ||
+		(p1 === paper && p2 === rock) ||
+		(p1 === scissors && p2 === paper)) {
+			return player1;
+		} else if (p1 === p2) {
+			return tieBreaker;
 		} else {
-			p2_Score += 1;
+			return player2;
+		}
+	}
+
+	let winner = checkLogic(p1, p2);
+	
+	if (winner === player1) {
+		p1_Score += 1;
+		if (p1_Score === 5) {
+			winScreen.textContent = 'P1 Wins!';
+			output.appendChild(winScreen);
+			output.appendChild(btnPlayAgain);
+		}
+	} else {	
+		p2_Score += 1;
+		if (p2_Score === 5) {
+			winScreen.textContent = 'P2 Wins!';
+			output.appendChild(winScreen);
+			output.appendChild(btnPlayAgain);
 		}
 	}
 	
-	console.log("player 1 score: " + p1_Score + "\nplayer 2 score: " + p2_Score);
-		
-	if (p1_Score > p2_Score) {
-		winner = player1;
-	} else {
-		winner = player2;
-	}
-	
-	console.log(`${winner} wins the game!`);
-	return winner;
 }
 
-game();
-// console.log(playRound(getPlayerChoice(), getComputerChoice()));
+function resetGame() {
+	p1_Score = 0;
+	p2_Score = 0;
+	while (output.firstChild) {
+		output.firstChild.remove();
+	}
+}
 
+
+const rock = "boulder";
+const paper = "parchment";
+const scissors = "shears";
+
+const player1 = "The Human";
+const player2 = "The Computer";
+const tieBreaker = "TIE!!!";
+
+// Buttons + Screen
+const btnRock = document.querySelector(".rock");
+const btnPaper = document.querySelector(".paper");
+const btnScissors = document.querySelector(".scissors");
+
+const output = document.querySelector(".output");
+
+const btnPlayAgain = document.createElement('button');
+btnPlayAgain.textContent = 'Play Again?'
+
+// Win "Screens"
+let winScreen = document.createElement('div');
+
+// Score Counters
+let p1_Score = 0;
+let p2_Score = 0;
+
+// Button Event Listeners
+btnRock.addEventListener("click", () => {
+	playRound(rock, p1_Score, getComputerChoice(), p2_Score)
+});
+
+btnPaper.addEventListener("click", () => {
+	playRound(paper, p1_Score, getComputerChoice(), p2_Score)
+});
+
+btnScissors.addEventListener("click", () => {
+	playRound(scissors, p1_Score, getComputerChoice(), p2_Score)
+});
+
+btnPlayAgain.addEventListener("click", () => {
+	resetGame();
+});
 

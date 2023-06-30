@@ -1,0 +1,39 @@
+body {
+	display: flex;
+	flex-direction: column;
+	background-color: pink;
+	justify-items: center;
+	align-items: center;
+}
+
+.game {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 60vw;
+}
+
+.output {
+	width: 600px;
+	height: 400px;
+	background-color: red;
+}
+
+.user-input {
+	display: flex;
+	padding: 30px;
+	gap: 16px;
+
+}
+
+button {
+	width: 200px;
+	height: 75px;
+	background-color: teal;
+}
+
+.user-input {
+	display: flex;
+}
